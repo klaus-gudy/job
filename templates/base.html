@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Devs</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{{url_for('index')}}">home</a>
+      <a href="{{url_for('login')}}">login</a>
+      <a href="{{url_for('register')}}">register</a>
+    </nav>
+    {% block content %}
+
+    {% endblock content %}
+  </body>
+</html>
