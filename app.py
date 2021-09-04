@@ -1,34 +1,28 @@
-from flask import Flask, render_template, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask import Flask, render_template, url_for, redirect, request, session
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-db = SQLAlchemy()
-
-app.config['SECRET_KEY'] = 'thisisasecretkey'
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
+app.secret_key = "mysecretkey"
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=["POST", "GET"])
 def login():
-    return render_template('login.html')
+    if request.method == "POST":
+        user = request.form["username"]
+        return redirect(url_for("welcome", usr=user))
+    else:
+        return render_template('login.html')
+
+
+@app.route('/welcome/<usr>')
+def welcome(usr):
+    return render_template('welcome.html', usr=usr)
 
 @app.route('/register')
 def register():
     return render_template('register.html')
-
-@app.route('/')
-def welcome():
-    return render_template('welcome.html')
-
 
 if __name__ == '__main__':
     app.run(debug = True)
