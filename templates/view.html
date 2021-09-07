@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>views</h1>
+
+    {% for item in values %}
+        <p>name: {{item.name}}, email: {{item.email}} </p>
+    {% endfor %}
+
+
+
+{% endblock content %}
