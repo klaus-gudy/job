@@ -19,9 +19,11 @@ def login():
             "name":name
         }
         session["user"] = user
+        flash("login succesfully")
         return redirect(url_for("welcome"))
     else:
         if "user" in session:
+            flash("already logged in")
             return redirect(url_for("welcome"))
         return render_template('login.html')
 
@@ -30,14 +32,18 @@ def login():
 def welcome():
     if "user" in session:
         user = session["user"]
+        # flash("login succesfully")
         return render_template('welcome.html', user=user)
     else:
+        flash("you are not logged in")
         return redirect(url_for("login"))
 
 @app.route("/logout")
 def logout():
-    session.pop("user", None )
-    flash("you have been log out")
+    if "user" in session:
+        user = session["user"]
+        flash("you have been log out","info")
+    session.pop("user", None ) 
     return redirect(url_for("login"))
 
 @app.route('/register')
